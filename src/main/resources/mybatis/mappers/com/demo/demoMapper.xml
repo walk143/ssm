@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sloera.demo">
+    <resultMap type="com.sloera.demo.po.TempBean" id="demomap">
+        <id column="id" property="id"/>
+        <result column="BSNUM" property="BSNUM"/>
+        <!--		<result column="run_time" property="run_time"  javaType="java.util.Date"/>-->
+        <result column="ITEM" property="ITEM"/>
+    </resultMap>
+    <!-- 查询对象 -->
+    <select id="getTest" resultMap="demomap">
+		select * from TABLE_NAME
+	</select>
+
+    <select id="getDemo" resultMap="demomap">
+		select * from TABLE_NAME where id = #{id}
+	</select>
+
+    <select id="selectDemo" resultType="map">
+		select * from TABLE_NAME where id = #{id}
+	</select>
+
+    <!-- 插入对象 -->
+    <insert id="insertTest">
+	    insert into TABLE_NAME (id, bsNum, item) values (
+	    	#{id}, #{bsNum},#{item}
+	    )
+	</insert>
+    <!-- 更新对象 -->
+    <update id="updateTest">
+	    update TABLE_NAME set bsNum=#{bsNum},item=#{item} where ID = #{id}
+	</update>
+    <!-- 删除对象 -->
+    <delete id="deleteTest">
+	  	delete from TABLE_NAME where id = #{id}
+	</delete>
+</mapper>

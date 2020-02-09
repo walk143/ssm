@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+	 	<!-- 配置全局性 cache 的 ( 开 / 关) default:true -->  
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 是否使用 懒加载 关联对象  同 hibernate中的延迟加载 一样  default:true -->  
+        <setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 这是默认的执行类型   
+            SIMPLE :简单    
+            REUSE:执行器可能重复使用prepared statements 语句   
+            BATCH:执行器可以重复执行语句和批量更新  
+        <setting name="defaultExecutorType" value="SIMPLE"/>  
+        -->
+	 	<!-- [是否 启用  数据中 A_column 自动映射 到 java类中驼峰命名的属性 default:fasle] --> 
+		<setting name="mapUnderscoreToCamelCase" value="false"/>  
+         <!-- 设置驱动等待数据响应的超时秒数  默认没有设置-->
+        <setting name="defaultStatementTimeout" value="25000"/>
+         <!-- 设置本地缓存范围 session:就会有数据的共享  statement:语句范围 (这样就不会有数据的共享 ) defalut:session -->  
+        <setting name="localCacheScope" value="SESSION"/>
+        <!-- 设置触发延迟加载的方法  -->  
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>  
+         <!-- [是否启用 行内嵌套语句  defaut:false] -->
+        <setting name="safeRowBoundsEnabled" value="false"/>
+         <setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	<!--  
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="org/mybatis/example/BlogMapper.xml"/>
+	</mappers>
+	-->
+</configuration>

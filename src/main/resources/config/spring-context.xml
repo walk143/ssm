@@ -32,5 +32,15 @@
     <!--进入登录-->
     <mvc:view-controller path="/" view-name="redirect:/login"/>
     <!-- 引入数mybatis配置文件 -->
-    <import resource="./application-mybatis.xml" />
+    <import resource="./spring-jdbc.xml" />
+    <bean id="masterSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="masterDataSource"/>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath*:mybatis/mappers/**/*.xml"/>
+    </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="jdbc_dataSourceOracle" />
+        </property>
+    </bean>
 </beans>

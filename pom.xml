@@ -19,6 +19,10 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <freemarker.version>2.3.9</freemarker.version>
     <spring.version>5.2.3.RELEASE</spring.version>
+    <druid.version>1.1.9</druid.version>
+    <mybatis.version>3.5.4</mybatis.version>
+    <mybatis-spring.version>2.0.3</mybatis-spring.version>
+    <fastjson.version>1.2.9</fastjson.version>
   </properties>
 
   <dependencies>
@@ -44,6 +48,70 @@
       <artifactId>spring-context-support</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- servlet
+    HttpServletResponse-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <!--数据库相关-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>${druid.version}</version>
+    </dependency>
+    <!--dbcp-->
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+      <version>1.6</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.1</version>
+    </dependency>
+    <!--oracle驱动-->
+    <dependency>
+      <groupId>ojdbc</groupId>
+      <artifactId>ojdbc</artifactId>
+      <version>8</version>
+    </dependency>
+
+    <!-- mybatis核心包 -->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>${mybatis.version}</version>
+    </dependency>
+    <!-- mybatis/spring包 -->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>${mybatis-spring.version}</version>
+    </dependency>
+
+
     <!-- 添加 Freemarker 支持-->
     <dependency>
       <groupId>org.freemarker</groupId>
@@ -56,6 +124,13 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>${fastjson.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

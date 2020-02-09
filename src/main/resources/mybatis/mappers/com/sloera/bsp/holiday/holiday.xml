@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sloera.bsp.holiday">
+    <resultMap id="BaseResultMap" type="com.sloera.bsp.holiday.po.HolidayBean">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="YEAR" jdbcType="DECIMAL" property="year"/>
+        <result column="MONTH" jdbcType="DECIMAL" property="month"/>
+        <result column="DAY" jdbcType="DECIMAL" property="day"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="TYPE" jdbcType="CHAR" property="type"/>
+        <result column="DATE_TIME" jdbcType="TIMESTAMP" property="dateTime"/>
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="STATUS" jdbcType="CHAR" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    HOLIDAY.ID as ID, HOLIDAY."YEAR" as "YEAR", HOLIDAY."MONTH" as "MONTH", 
+    HOLIDAY."DAY" as "DAY", HOLIDAY."NAME" as "NAME", HOLIDAY."TYPE" as "TYPE", 
+    HOLIDAY.DATE_TIME as DATE_TIME, HOLIDAY.CREATOR as CREATOR, HOLIDAY.CREATE_TIME as CREATE_TIME, 
+    HOLIDAY.REMARK as REMARK, HOLIDAY."STATUS" as "STATUS"
+  </sql>
+    <!--    <sql id="Example_Where_Clause">-->
+    <!--        <where>-->
+    <!--            <foreach collection="oredCriteria" item="criteria" separator="or">-->
+    <!--                <if test="criteria.valid">-->
+    <!--                    <trim prefix="(" prefixOverrides="and" suffix=")">-->
+    <!--                        <foreach collection="criteria.criteria" item="criterion">-->
+    <!--                            <choose>-->
+    <!--                                <when test="criterion.noValue">-->
+    <!--                                    and ${criterion.condition}-->
+    <!--                                </when>-->
+    <!--                                <when test="criterion.singleValue">-->
+    <!--                                    and ${criterion.condition} #{criterion.value}-->
+    <!--                                </when>-->
+    <!--                                <when test="criterion.betweenValue">-->
+    <!--                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}-->
+    <!--                                </when>-->
+    <!--                                <when test="criterion.listValue">-->
+    <!--                                    and ${criterion.condition}-->
+    <!--                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">-->
+    <!--                                        #{listItem}-->
+    <!--                                    </foreach>-->
+    <!--                                </when>-->
+    <!--                            </choose>-->
+    <!--                        </foreach>-->
+    <!--                    </trim>-->
+    <!--                </if>-->
+    <!--            </foreach>-->
+    <!--        </where>-->
+    <!--    </sql>-->
+    <!--    <sql id="Update_By_Example_Where_Clause">-->
+    <!--        <where>-->
+    <!--            <foreach collection="example.oredCriteria" item="criteria" separator="or">-->
+    <!--                <if test="criteria.valid">-->
+    <!--                    <trim prefix="(" prefixOverrides="and" suffix=")">-->
+    <!--                        <foreach collection="criteria.criteria" item="criterion">-->
+    <!--                            <choose>-->
+    <!--                                <when test="criterion.noValue">-->
+    <!--                                    and ${criterion.condition}-->
+    <!--                                </when>-->
+    <!--                                <when test="criterion.singleValue">-->
+    <!--                                    and ${criterion.condition} #{criterion.value}-->
+    <!--                                </when>-->
+    <!--                                <when test="criterion.betweenValue">-->
+    <!--                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}-->
+    <!--                                </when>-->
+    <!--                                <when test="criterion.listValue">-->
+    <!--                                    and ${criterion.condition}-->
+    <!--                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">-->
+    <!--                                        #{listItem}-->
+    <!--                                    </foreach>-->
+    <!--                                </when>-->
+    <!--                            </choose>-->
+    <!--                        </foreach>-->
+    <!--                    </trim>-->
+    <!--                </if>-->
+    <!--            </foreach>-->
+    <!--        </where>-->
+    <!--    </sql>-->
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from HOLIDAY HOLIDAY
+        <if test="_parameter != null">
+            <!--            <include refid="Example_Where_Clause" />-->
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from HOLIDAY HOLIDAY
+        where HOLIDAY.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from HOLIDAY
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+    <!--    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="java.util.Map" useGeneratedKeys="true"> 自增长主键-->
+    <insert id="insert" parameterType="java.util.Map">
+    insert into HOLIDAY ("ID", "YEAR", "MONTH", "DAY",
+      "NAME", "TYPE", DATE_TIME,
+      CREATOR, CREATE_TIME, REMARK,
+      "STATUS")
+    values (#{id,jdbcType=VARCHAR}, #{year,jdbcType=DECIMAL}, #{month,jdbcType=DECIMAL}, #{day,jdbcType=DECIMAL},
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{dateTime,jdbcType=TIMESTAMP},
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
+      #{status,jdbcType=CHAR})
+  </insert>
+    <insert id="insertForeach" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into HOLIDAY ("ID", "YEAR", "MONTH", "DAY","NAME", "TYPE", DATE_TIME,CREATOR, CREATE_TIME,
+        REMARK,"STATUS")
+        <foreach collection="list" item="holiday" index="index" separator="union all">
+            select
+            #{holiday.id,jdbcType=VARCHAR}, #{holiday.year,jdbcType=DECIMAL}, #{holiday.month,jdbcType=DECIMAL},
+            #{holiday.day,jdbcType=DECIMAL},
+            #{holiday.name,jdbcType=VARCHAR}, #{holiday.type,jdbcType=CHAR}, #{holiday.dateTime,jdbcType=TIMESTAMP},
+            #{holiday.creator,jdbcType=VARCHAR}, #{holiday.createTime,jdbcType=TIMESTAMP},
+            #{holiday.remark,jdbcType=VARCHAR},
+            #{holiday.status,jdbcType=CHAR}
+            from dual
+        </foreach>
+    </insert>
+    <!--    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="generate.Holiday"-->
+    <!--            useGeneratedKeys="true">-->
+    <!--        insert into HOLIDAY-->
+    <!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--            <if test="year != null">-->
+    <!--                "YEAR",-->
+    <!--            </if>-->
+    <!--            <if test="month != null">-->
+    <!--                "MONTH",-->
+    <!--            </if>-->
+    <!--            <if test="day != null">-->
+    <!--                "DAY",-->
+    <!--            </if>-->
+    <!--            <if test="name != null">-->
+    <!--                "NAME",-->
+    <!--            </if>-->
+    <!--            <if test="type != null">-->
+    <!--                "TYPE",-->
+    <!--            </if>-->
+    <!--            <if test="dateTime != null">-->
+    <!--                DATE_TIME,-->
+    <!--            </if>-->
+    <!--            <if test="creator != null">-->
+    <!--                CREATOR,-->
+    <!--            </if>-->
+    <!--            <if test="createTime != null">-->
+    <!--                CREATE_TIME,-->
+    <!--            </if>-->
+    <!--            <if test="remark != null">-->
+    <!--                REMARK,-->
+    <!--            </if>-->
+    <!--            <if test="status != null">-->
+    <!--                "STATUS",-->
+    <!--            </if>-->
+    <!--        </trim>-->
+    <!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--            <if test="year != null">-->
+    <!--                #{year,jdbcType=DECIMAL},-->
+    <!--            </if>-->
+    <!--            <if test="month != null">-->
+    <!--                #{month,jdbcType=DECIMAL},-->
+    <!--            </if>-->
+    <!--            <if test="day != null">-->
+    <!--                #{day,jdbcType=DECIMAL},-->
+    <!--            </if>-->
+    <!--            <if test="name != null">-->
+    <!--                #{name,jdbcType=VARCHAR},-->
+    <!--            </if>-->
+    <!--            <if test="type != null">-->
+    <!--                #{type,jdbcType=CHAR},-->
+    <!--            </if>-->
+    <!--            <if test="dateTime != null">-->
+    <!--                #{dateTime,jdbcType=TIMESTAMP},-->
+    <!--            </if>-->
+    <!--            <if test="creator != null">-->
+    <!--                #{creator,jdbcType=VARCHAR},-->
+    <!--            </if>-->
+    <!--            <if test="createTime != null">-->
+    <!--                #{createTime,jdbcType=TIMESTAMP},-->
+    <!--            </if>-->
+    <!--            <if test="remark != null">-->
+    <!--                #{remark,jdbcType=VARCHAR},-->
+    <!--            </if>-->
+    <!--            <if test="status != null">-->
+    <!--                #{status,jdbcType=CHAR},-->
+    <!--            </if>-->
+    <!--        </trim>-->
+    <!--    </insert>-->
+    <update id="updateByExampleSelective" parameterType="map">
+        update HOLIDAY HOLIDAY
+        <set>
+            <if test="record.id != null">
+                HOLIDAY.ID = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.year != null">
+                HOLIDAY."YEAR" = #{record.year,jdbcType=DECIMAL},
+            </if>
+            <if test="record.month != null">
+                HOLIDAY."MONTH" = #{record.month,jdbcType=DECIMAL},
+            </if>
+            <if test="record.day != null">
+                HOLIDAY."DAY" = #{record.day,jdbcType=DECIMAL},
+            </if>
+            <if test="record.name != null">
+                HOLIDAY."NAME" = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                HOLIDAY."TYPE" = #{record.type,jdbcType=CHAR},
+            </if>
+            <if test="record.dateTime != null">
+                HOLIDAY.DATE_TIME = #{record.dateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.creator != null">
+                HOLIDAY.CREATOR = #{record.creator,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                HOLIDAY.CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.remark != null">
+                HOLIDAY.REMARK = #{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                HOLIDAY."STATUS" = #{record.status,jdbcType=CHAR},
+            </if>
+        </set>
+        <!--        <if test="_parameter != null">-->
+        <!--            <include refid="Update_By_Example_Where_Clause"/>-->
+        <!--        </if>-->
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update HOLIDAY HOLIDAY
+        set HOLIDAY.ID = #{record.id,jdbcType=VARCHAR},
+        HOLIDAY."YEAR" = #{record.year,jdbcType=DECIMAL},
+        HOLIDAY."MONTH" = #{record.month,jdbcType=DECIMAL},
+        HOLIDAY."DAY" = #{record.day,jdbcType=DECIMAL},
+        HOLIDAY."NAME" = #{record.name,jdbcType=VARCHAR},
+        HOLIDAY."TYPE" = #{record.type,jdbcType=CHAR},
+        HOLIDAY.DATE_TIME = #{record.dateTime,jdbcType=TIMESTAMP},
+        HOLIDAY.CREATOR = #{record.creator,jdbcType=VARCHAR},
+        HOLIDAY.CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+        HOLIDAY.REMARK = #{record.remark,jdbcType=VARCHAR},
+        HOLIDAY."STATUS" = #{record.status,jdbcType=CHAR}
+        <!--        <if test="_parameter != null">-->
+        <!--            <include refid="Update_By_Example_Where_Clause"/>-->
+        <!--        </if>-->
+    </update>
+    <!--    <update id="updateByPrimaryKeySelective" parameterType="generate.Holiday">-->
+    <!--        update HOLIDAY-->
+    <!--        <set>-->
+    <!--            <if test="year != null">-->
+    <!--                "YEAR" = #{year,jdbcType=DECIMAL},-->
+    <!--            </if>-->
+    <!--            <if test="month != null">-->
+    <!--                "MONTH" = #{month,jdbcType=DECIMAL},-->
+    <!--            </if>-->
+    <!--            <if test="day != null">-->
+    <!--                "DAY" = #{day,jdbcType=DECIMAL},-->
+    <!--            </if>-->
+    <!--            <if test="name != null">-->
+    <!--                "NAME" = #{name,jdbcType=VARCHAR},-->
+    <!--            </if>-->
+    <!--            <if test="type != null">-->
+    <!--                "TYPE" = #{type,jdbcType=CHAR},-->
+    <!--            </if>-->
+    <!--            <if test="dateTime != null">-->
+    <!--                DATE_TIME = #{dateTime,jdbcType=TIMESTAMP},-->
+    <!--            </if>-->
+    <!--            <if test="creator != null">-->
+    <!--                CREATOR = #{creator,jdbcType=VARCHAR},-->
+    <!--            </if>-->
+    <!--            <if test="createTime != null">-->
+    <!--                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},-->
+    <!--            </if>-->
+    <!--            <if test="remark != null">-->
+    <!--                REMARK = #{remark,jdbcType=VARCHAR},-->
+    <!--            </if>-->
+    <!--            <if test="status != null">-->
+    <!--                "STATUS" = #{status,jdbcType=CHAR},-->
+    <!--            </if>-->
+    <!--        </set>-->
+    <!--        where ID = #{id,jdbcType=VARCHAR}-->
+    <!--    </update>-->
+    <!--    <update id="updateByPrimaryKey" parameterType="generate.Holiday">-->
+    <!--    update HOLIDAY-->
+    <!--    set "YEAR" = #{year,jdbcType=DECIMAL},-->
+    <!--      "MONTH" = #{month,jdbcType=DECIMAL},-->
+    <!--      "DAY" = #{day,jdbcType=DECIMAL},-->
+    <!--      "NAME" = #{name,jdbcType=VARCHAR},-->
+    <!--      "TYPE" = #{type,jdbcType=CHAR},-->
+    <!--      DATE_TIME = #{dateTime,jdbcType=TIMESTAMP},-->
+    <!--      CREATOR = #{creator,jdbcType=VARCHAR},-->
+    <!--      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},-->
+    <!--      REMARK = #{remark,jdbcType=VARCHAR},-->
+    <!--      "STATUS" = #{status,jdbcType=CHAR}-->
+    <!--    where ID = #{id,jdbcType=VARCHAR}-->
+    <!--  </update>-->
+</mapper>

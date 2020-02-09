@@ -6,7 +6,7 @@
 
 
     <!-- 引入数据源配置文件 -->
-    <!--<import resource="./application-datasource.xml" />-->
+    <import resource="./spring-jdbc.xml" />
 
 
     <!-- MyBatis配置 -->
