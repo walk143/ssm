@@ -1,7 +1,80 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+  <display-name>SSM</display-name>
+  <filter>
+    <filter-name>Set Character Encoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <!--class依赖spring-webmvc-->
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Set Character Encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <!--Spring配置文件引入-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:config/spring-context.xml</param-value>
+  </context-param>
+
+  <!-- 配置监听器后，启动Tomcat服务器的时候就可启动Spring容器,从而执行spring-context.xml配置文件信息 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+
+  <!--springMVC配置-->
+  <servlet>
+    <servlet-name>springMvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:config/spring-servlet.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springMvc</servlet-name>
+    <url-pattern>/</url-pattern><!-- /,/*:所有请求都需要过滤 *.json:所有以.json结尾的请求都需要过滤 -->
+  </servlet-mapping>
+
+  <!-- 欢迎页面-->
+  <welcome-file-list>
+    <welcome-file>/WEB-INF/default.html</welcome-file>
+  </welcome-file-list>
+  <!--404错误展示页面，可自行配置-->
+  <!--<error-page>-->
+  <!--  &lt;!&ndash; 路径不正确 &ndash;&gt;-->
+  <!--  <error-code>404</error-code>-->
+  <!--  <location>/WEB-INF/pages/error/404.html</location>-->
+  <!--</error-page>-->
+  <!--<error-page>-->
+  <!--  &lt;!&ndash; 没有访问权限，访问被禁止 &ndash;&gt;-->
+  <!--  <error-code>405</error-code>-->
+  <!--  <location>/WEB-INF/pages/error/405.html</location>-->
+  <!--</error-page>-->
+  <!--<error-page>-->
+  <!--  &lt;!&ndash; 内部错误 &ndash;&gt;-->
+  <!--  <error-code>500</error-code>-->
+  <!--  <location>/WEB-INF/pages/error/500.html</location>-->
+  <!--</error-page>-->
+  <!--设置session失效时间为30分钟 -->
+  <session-config>
+    <session-timeout>600</session-timeout>
+  </session-config>
 </web-app>
