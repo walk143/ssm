@@ -16,11 +16,9 @@
         <context:include-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <!-- 扫描@Service注解的类，完成bean创建和依赖注入 （服务层、数据层） -->
-    <context:component-scan base-package="com.sloera"
-                            use-default-filters="false">
-        <context:include-filter type="annotation"
-                                expression="org.springframework.stereotype.Service" />
+    <!-- 扫描除controller注解，service和dao等包下所有使用注解的类型 -->
+    <context:component-scan base-package="com.sloera">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <!--开启注解配置-->
     <mvc:annotation-driven/>
