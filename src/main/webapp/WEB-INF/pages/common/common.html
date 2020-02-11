@@ -1,0 +1,116 @@
+<#--<#if iframe??>-->
+   	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<link href="${root!}/static/css/custom.css" rel="stylesheet">
+  	<link href="${root!}/static/css/wizard.min.css" rel="stylesheet">
+	<link href="${root!}/static/css/non-responsive.css" rel="stylesheet">
+	<link href="${root!}/static/css/icomoon.css" rel="stylesheet">
+	<link href="${root!}/static/css/font-awesome.min.css" rel="stylesheet">
+	<link href="${root!}/static/css/approvaldocs.css" rel="stylesheet">
+	<!-- <link href="${root!}/static/css/form.css" rel="stylesheet"> -->
+	<!-- <link href="${root!}/static/css/gz-form.css" rel="stylesheet"> -->
+	<link href="${root!}/static/js/qtip/jquery.qtip.min.css" rel="stylesheet">
+	<!-- 框架升级菜单变化 -->
+  	<link href="${root!}/static/css/docs-arcee.css" rel="stylesheet">
+  	<link href="${root!}/static/js/kindeditor/themes/default/default.css" rel="stylesheet" />
+   	<link href="${root!}/static/js/kindeditor/plugins/code/prettify.css"  rel="stylesheet" />
+   	<link href="${root!}/static/js/jqgrid/css/jqgrid.css"  rel="stylesheet"/>
+   	<link href="${root!}/static/js/validate/css/style.css" rel="stylesheet" />
+   	<link href="${root!}/static/js/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+   	<link href="${root!}/static/js/calendar/css/bootstrap-datetimepicker.css" rel="stylesheet">
+	<link href="${root!}/static/js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet">
+	<!--<link href="${root!}/static/js/My97DatePicker/skin/default/datepicker.css" rel="stylesheet">-->
+	<!--<link href="${root!}/static/js/My97DatePicker/skin/whyGreen/datepicker.css" rel="stylesheet">-->
+	<link href="${root!}/static/js/icheck/skins/square/_all.css" rel="stylesheet">
+	<link href="${root!}/static/js/fineload/css/jquery.fileupload.css" rel="stylesheet"/>
+
+
+	<script src="${root!}/static/js/jquery/jquery-3.4.1.min.js"></script>
+   	<!--[if lt IE 9]>
+    	<script src="${root!}/static/js/ie8-responsive-file-warning.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+    <script src="${root!}/static/js/html5shiv.js"></script>
+    <script src="${root!}/static/js/respond.min.js"></script>
+    <script src="${root!}/static/js/IE8IndexOf.min.js"></script>
+    <link href="${root!}/static/css/dzzw-base-ie7.css" rel="stylesheet">
+<![endif]-->
+	<script src="${root!}/static/js/ie10-viewport-bug-workaround.js"></script>
+	<script src="${root!}/static/js/ie-emulation-modes-warning.js"></script>
+	<script src="${root!}/static/js/bootstrap.min.js"></script> 
+	
+	<script src="${root!}/static/js/jqgrid/js/jquery.jqgrid.min.js"></script>
+	<script src="${root!}/static/js/jqgrid/js/jquery.jggrid.zh-cn.js"></script>
+	<script src="${root!}/static/js/dialog/jquery.artDialog.source.js?skin=blue"></script>   
+	<script src="${root!}/static/js/dialog/plugins/iframeTools.js"></script>   
+	<script src="${root!}/static/js/validate/validform_v5.3.2.js"></script>
+	<script src="${root!}/static/js/fineload/js/vendor/jquery.ui.widget.js"></script>
+	<script src="${root!}/static/js/fineload/js/jquery.iframe-transport.js"></script>
+	<script src="${root!}/static/js/fineload/js/jquery.fileupload.js"></script>
+	<script src="${root!}/static/js/power/power-all.js"></script>
+	<script src="${root!}/static/js/power/power.index.js"></script>
+	<!--Kanl   公共字典类 -->
+	<script src="${root!}/static/js/approval.util.js"></script>
+	<!--ace scripts -->
+	<script src="${root!}/static/js/kindeditor/kindeditor-min.js"></script>
+	<script src="${root!}/static/js/kindeditor/kindeditor.js"></script>
+	<script  src="${root!}/static/js/ace-elements.js"></script>
+	<script  src="${root!}/static/js/ace.js"></script>
+	<script src="${root!}/static/js/spinner/fuelux.spinner.min.js"></script>
+	<!-- 树插件 -->
+	<script src="${root!}/static/js/ztree/js/jquery.ztree.core-3.5.min.js"></script>
+	<script src="${root!}/static/js/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
+	<script src="${root!}/static/js/calendar/bootstrap-datetimepicker.min.js"></script>
+	<script src="${root!}/static/js/calendar/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="${root!}/static/js/My97DatePicker/WdatePicker.js"></script>
+	<!-- switch插件 -->
+	<script src="${root!}/static/js/switch/bootstrap-switch.min.js"></script>
+	<!-- icheck插件 -->
+	 <script src="${root!}/static/js/icheck/icheck.js?v=1.0.2"></script>
+     <script src="${root!}/static/js/icheck/demo/js/custom.min.js?v=1.0.2"></script>
+	<script src="${root!}/static/js/qtip/jquery.outerhtml.js"></script>
+	<script src="${root!}/static/js/qtip/jquery.qtip.min.js"></script>
+	<script src="${root!}/static/js/archive/selectBox.js"></script>
+	<!-- 本地操作 -->
+	<!-- <link href="${root!}/static/UI3.5.1/_patch3.5.1.css" rel="stylesheet"> -->
+<#--</#if>-->
+
+<script type="text/javascript">
+
+$(function(){
+	var cmd = new Power.command("${root!}/approval/systemsetting", "post");
+	if("${root!}"==""){
+		cmd = new Power.command("approval/systemsetting", "post");
+	}
+	var ret = cmd.execute("queryUiStyle");
+	if (ret.UiStyle == "3.5.1") {
+		//动态加载 CSS 文件
+		dynamicLoading.css("${root!}/static/UI3.5.1/_patch3.5.1.css");
+    }
+});
+
+	var dynamicLoading = {
+	  css: function(path){
+	 if(!path || path.length === 0){
+	  throw new Error('argument "path" is required !');
+	 }
+	 var head = document.getElementsByTagName('head')[0];
+	    var link = document.createElement('link');
+	    link.href = path;
+	    link.rel = 'stylesheet';
+	    link.type = 'text/css';
+	    head.appendChild(link);
+	  },
+	  js: function(path){
+	 if(!path || path.length === 0){
+	  throw new Error('argument "path" is required !');
+	 }
+	 var head = document.getElementsByTagName('head')[0];
+	    var script = document.createElement('script');
+	    script.src = path;
+	    script.type = 'text/javascript';
+	    head.appendChild(script);
+	  }
+	}
+	
+	
+</script>

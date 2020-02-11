@@ -3,12 +3,13 @@ package com.sloera.mng.core.error;
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Writer;
 
 public class FreemarkerException implements TemplateExceptionHandler {
-    private static final Logger log4j = Logger.getLogger(FreemarkerException.class);
+    private static final Logger log4j = LogManager.getLogger(FreemarkerException.class);
     public FreemarkerException(){};
 
     @Override

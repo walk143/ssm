@@ -2,14 +2,15 @@ package com.sloera.mng.core.utils.db;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 public class DbUtils {
-    private static Logger logger = Logger.getLogger(DbUtils.class);
+    private static Logger logger = LogManager.getLogger(DbUtils.class);
     //private static final MessageFormat formatLimitString = new MessageFormat("SELECT GLOBAL_TABLE.* FROM ( SELECT ROW_NUMBER() OVER( {0}) AS __MYSEQ__,TEMP_TABLE.* FROM  ( {1} ) TEMP_TABLE) GLOBAL_TABLE WHERE GLOBAL_TABLE.__MYSEQ__>{2}");
 
     public DbUtils() {

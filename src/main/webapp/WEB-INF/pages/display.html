@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Bootstrap form</title>
+            <meta charset="utf-8">
+            <!-- 对移动设备进行支持 -->
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+            <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--            <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+
+            <script type="text/javascript">
+                // var form = {};
+                // var datam;
+                function displayInfo(form){
+                    document.forms["form"]["apply"].value = form["apply"];
+                    document.forms["form"]["file"].value = form["file"];
+                    document.getElementById("username").value = form.username;
+                    document.getElementById("number").value = form.number;
+                    document.getElementById("password").value = form.password;
+                    document.forms["form"]["time"].value = form.time;
+                    document.forms["form"]["week"].value = form.week;
+                    document.forms["form"]["city"].value = form.city;
+                    document.forms["form"]["cars"].value = form.cars;
+                }
+                $(function() {
+                    $('#btn6').click(function() {
+                        console.log('你点击了按钮,将会请求数据回来');
+                        $.ajax({
+                            type: "POST",
+                            url: "/getByNumber?number="+document.getElementById("find").value,
+                            dataType: 'json',
+                            async: false,
+
+                            success: function (data) {
+                                alert(data);
+                                displayInfo(data);
+                                // datam = data;
+                            }
+                        })
+                        // console.log(datam);
+                        // console.log(data);
+                    });
+                });
+
+            </script>
+        </head>
+    <body>
+    <h1 class="text-center">材料清单查询</h1>
+    <form class="form-search row">
+        <label class="col-sm-offset-4 col-sm-1" style="font-size: 18px;width: 60px;padding-right: 5px;top:3px">查询</label>
+        <!--        <div class="horizontal-grabber">-->
+        <input type="number" id="find" class="input-medium search-query col-sm-2" placeholder="请输入查询账号" style="margin-right: 10px;top:3px">
+        <button id="btn6" type="button" class="btn col-sm-1">查询</button>
+        <!--        </div>-->
+    </form>
+    <h2 class="text-center">提交申请材料清单</h2>
+                            
+    <div class="container">
+
+        <br/>
+        <form class="form-horizontal" action="#" id="form" role="form" >
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="username" placeholder="请输入用户名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="number" class="col-sm-2 control-label">账号</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="number" placeholder="请输入账号">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="password2">
+            </div>
+            <div class="form-group">
+                <label for="apply" class="col-sm-2 control-label">申请材料类型</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="apply">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="file" class="col-sm-2 control-label">申请表</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="file" placeholder="申请表名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="time" class="col-sm-2 control-label">时间</label>
+                <div class="col-sm-10">
+                    <input type="time" id="time" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="week" class="col-sm-2 control-label">星期</label>
+                <div class="col-sm-10">
+                    <input type="week" id="week" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">城市</label>
+                <div class="col-sm-10">
+                    <label class="radio-inline">
+                        <input type="radio"  name="city" id="city1" value="City1" checked>City1
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio"  name="city" id="city2" value="City2" checked>City2
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">复选</label>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox1" value="option1">选项1
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox2" value="option2">选项2
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox3" value="option3">选项3
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cars" class="col-sm-2 control-label">汽车</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="cars">
+                        <option value="volvo">volvo</option>
+                        <option value="saab">saab</option>
+                        <option value="fiat">fiat</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">操作</label>
+                <div class="col-sm-10">
+                    <button id="btn1" type="button">提交</button>
+                    <button id="btn2" type="button">删除</button>
+                    <button id="btn3" type="button">修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </body>
+</html>

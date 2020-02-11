@@ -3,9 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans-5.2.3.xsd
+            http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context-5.2.3.xsd">
+            http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 解决org.apache.catalina.connector.RequestFacade cannot be cast to org.springframework.web.multipart.MultipartHttpServletRequest -->
     <!--<bean id="multipartResolver"-->
@@ -62,5 +62,9 @@
         <property name="exposeSpringMacroHelpers" value="true"/>
         <property name="exposeRequestAttributes" value="false"/>
         <property name="exposeSessionAttributes" value="false"/>
+    </bean>
+    <!-- freemarker configuration -->
+    <bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:properties/freemarker.properties"/>
     </bean>
 </beans>
