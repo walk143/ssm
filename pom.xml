@@ -25,7 +25,22 @@
     <fastjson.version>1.2.9</fastjson.version>
     <log4j.version>2.9.1</log4j.version>
     <commons-lang.version>2.6</commons-lang.version> <!--字符处理等-->
+    <rocketmq.version>4.6.0</rocketmq.version> <!--字符处理等-->
   </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <dependencies>
     <!-- spring核心包 -->
@@ -162,6 +177,13 @@
       <artifactId>commons-lang</artifactId>
       <version>${commons-lang.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.rocketmq</groupId>
+      <artifactId>rocketmq-client</artifactId>
+      <version>${rocketmq.version}</version>
+    </dependency>
+
 
   </dependencies>
 
