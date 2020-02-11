@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bootstrap form</title>
+        <meta charset="utf-8">
+        <!-- 对移动设备进行支持 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <#include "*/common/html/htmlHeader.html">
+    </head>
+    <body>
+        <div class="container">
+            <h2 class="text-center">用户注册</h2>
+            <form class="form-horizontal" action="#" id="form" role="form" data-validator-option="{stopOnError:true}">
+                <div class="form-group">
+                    <label for="userName" class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="userName" name="userName" placeholder="请输入用户名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="account" class="col-sm-2 control-label">账号</label>
+                    <div class="col-sm-10">
+                        <input type="account" class="form-control" id="account" name="account" placeholder="请输入账号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" datatype="*1-20" nullmsg="此项不能为空" errormsg="请输入1~20字符">
+                    </div>
+                    <div class="Validform_checktip"></div>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" id="password2">
+                </div>
+                <div class="form-group">
+                    <label for="birthday" class="col-sm-2 control-label">出生时间</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="birthday" name="birthday" readonly placeholder="yyyy-mm-dd">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">性别</label>
+                    <div class="col-sm-10">
+<!--                        <input type="text" class="form-control" id="sex" placeholder="性别">-->
+                        <label class="radio-inline">
+                            <input type="radio"  name="sex" id="male" name="sex" value="1" checked>男性
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  name="sex" id="female" name="sex" value="0">女性
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  name="sex" id="unknow" name="sex" value="">未知
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">邮箱</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="请输入邮箱">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">操作</label>
+                    <div class="col-sm-10">
+                        <button id="btn1" type="button">注册</button>
+                        <button id="btn2" type="button">返回</button>
+                        <button id="btn3" type="button">修改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+    <#include "*/common/html/htmlFooter.html">
+    <script type="text/javascript">
+        function getInfo(){
+            var form = {};
+            form["apply"] = document.forms["form"]["apply"].value;
+            form["file"] = document.forms["form"]["file"].value;
+            form.userName = document.getElementById("userName").value;
+            form.number = document.getElementById("number").value;
+            form.password = document.getElementById("password").value;
+            form.time = document.forms["form"]["time"].value;
+            form.week = document.forms["form"]["week"].value;
+            form.city = document.forms["form"]["city"].value;
+            form.cars = document.forms["form"]["cars"].value;
+            return form;
+        }
+        $(function () {
+
+            Power.initIframe("${root!}");
+
+            $("#form").Validform();
+
+            $("#birthday").datetimepicker({
+                autoclose: true,
+                language: 'zh-CN',
+                // format: 'yyyy-mm-dd hh:ii:ss',
+                format: 'yyyy-mm-dd',
+                minView: 2,
+                startView: 4,
+                pickerPosition: 'bottom-right',
+                todayBtn: 'linked',
+                todayHighlight: 'true',
+            })
+
+            $('#btn1').click(function () {
+                console.log("将提交数据");
+                var form = $("form").serializeObject();
+                // // var form_json = JSON.stringify(form,null,4);
+                // // console.log(form_json);
+                // // var form = $('form').serialize();
+                // // var form2 = $('#form').serializeArray();
+                // // var form3 = $('form').serializeArray();
+                // console.log(form);
+                $.ajax({
+                    type: "POST",
+                    url: "person/user/register",
+                    data: form,
+                    dataType: "json",
+                    async: false,
+                    success: function(data){
+                        alert("Write successfully.");
+                        console.log(data);
+                        window.location.href = Power.rootPath;
+                    },
+                    error: function (data) {
+                        console.log(data.responseText);
+                    }
+                })
+            })
+            $('#btn2').click(function () {
+                window.location.href = Power.rootPath + "login";
+                // console.log("将删除数据");
+                // var form = {};
+                // form.number = document.getElementById("number").value;
+                // // var number = document.getElementById("number").value;
+                // $.ajax({
+                //     type: "POST",
+                //     url: "/delete",
+                //     data: form,
+                //     dataType: "json",
+                //     async: false,
+                //
+                //     success: function(data){
+                //         alert("Delete successfully.");
+                //     }
+                // })
+            })
+            $('#btn3').click(function () {
+                console.log("将修改数据");
+
+                // var form2 = $('form').serialize();
+                var form = getInfo();
+                console.log(form);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/update",
+                    data: form,
+                    dataType: "json",
+                    async: false,
+                    success: function(data){
+                        alert("Update successfully.");
+                    }
+                })
+            })
+        })
+    </script>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html></body>
+<html>
+    <head>
+        <title>列表页</title>
+        <meta charset="utf-8">
+        <!-- 对移动设备进行支持 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
+            function addDom(form,i){
+                var info;
+                info = "<tr><td>" +form.username+
+                    "</td><td>" +form.number+
+                    "</td><td>" +form.apply+
+                    "</td><td>" +form.file+
+                    "</td><td>" +form.time+
+                    "</td><td>" +form.week+
+                    "</td><td>" +form.city+
+                    "</td><td>" +form.cars+
+                    "</td><td>" +'<button id="btnm'+i+'" type="button" class="btn">编辑</button>'+
+                    "</td><td>" +'<button id="btnd'+i+'" type="button" class="btn">删除</button>'+
+                    "</td></tr>";
+                $("tbody").append(info);
+            }
+            function allInfo(){
+                //初始化页面，显示所有记录
+                $.ajax({
+                    type: "POST",
+                    url: "/getAll",
+                    dataType: 'json',
+                    async: false,
+
+                    success: function (data) {
+                        console.log(data);
+                        console.log(data.length);
+                        for(let i=0;i<data.length;i++){
+                            //添加节点，
+                            addDom(data[i],i);
+                        }
+                    }
+                })
+            }
+            $(function () {
+                allInfo();
+                $('#btn11').click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/getByNumber?number="+document.getElementById("find").value,
+                        dataType: 'json',
+                        async: false,
+                        success: function (data) {
+                            $("tbody").empty();
+                            addDom(data,0);
+                        }
+                    })
+                });
+                $('#btn12').click(function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "/index",
+                        // data:
+                        async: false,
+                        success:function () {
+                            window.location.href = "/index";
+                        }
+                    })
+                });
+            //    对单个记录进行删除
+                //    绑定节点的删除按钮
+                for(var i=0;i<$('tbody')[0].children.length;i++){
+                    $('#btnd'+i).click(function(){
+                        var form={};
+                        form.number = this.parentNode.parentElement.children[1].innerText;
+                        $.ajax({
+                            type: "POST",
+                            url: "/delete",
+                            data: form,
+                            dataType: "json",
+                            async: false,
+                            success: function(){
+                                console.log("Delete successfully.");
+                                $("tbody").empty();
+                                allInfo();
+                            }
+                        })
+                    });
+                }
+                // 绑定节点的编辑按钮
+                for(var i=0;i<$('tbody')[0].children.length;i++){
+                    // $('#btnm'+i).click(function(){
+                    //     var form={};
+                    //     form.number = this.parentNode.parentElement.children[1].innerText;
+                    //     $.ajax({
+                    //         type: "POST",
+                    //         url: "/delete",
+                    //         data: form,
+                    //         dataType: "json",
+                    //         async: false,
+                    //         success: function(){
+                    //             console.log("Delete successfully.");
+                    //             $("tbody").empty();
+                    //             allInfo();
+                    //         }
+                    //     })
+                    // });
+                }
+
+            })
+
+        </script>
+    </head>
+<body>
+<h2 class="text-center">材料清单统计</h2>
+<table class="table table-striped">
+    <caption class="text-center">材料清单</caption>
+    <thead>
+    <tr>
+        <th>用户名</th>
+        <th>账号</th>
+<!--        <th>密码</th>-->
+        <th>申请材料类型</th>
+        <th>申请表</th>
+        <th>时间</th>
+        <th>星期</th>
+        <th>城市</th>
+<!--        <th>复选</th>-->
+        <th>汽车</th>
+        <th style="width: 166px;top: 3px;"><input type="number" id="find" placeholder="查询账号" style="width: 74px;"> <button id="btn11" type="button" class="btn">查询</button> </th>
+        <th><button id="btn12" type="button" class="btn">添加</button> </th>
+    </tr>
+    </thead>
+    <tbody id="list1">
+
+    </tbody>
+</table>
+</body>
+</html>

@@ -17,13 +17,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <freemarker.version>2.3.9</freemarker.version>
+    <freemarker.version>2.3.29</freemarker.version>
     <spring.version>5.2.3.RELEASE</spring.version>
     <druid.version>1.1.9</druid.version> <!--数据库-->
     <mybatis.version>3.5.4</mybatis.version>
     <mybatis-spring.version>2.0.3</mybatis-spring.version>
     <fastjson.version>1.2.9</fastjson.version>
-    <log4j.version>1.2.9</log4j.version>
+    <log4j.version>2.9.1</log4j.version>
     <commons-lang.version>2.6</commons-lang.version> <!--字符处理等-->
   </properties>
 
@@ -135,9 +135,25 @@
     </dependency>
     <!-- 日志文件管理包 -->
     <!-- log start -->
+    <!--<dependency>-->
+    <!--  <groupId>log4j</groupId>-->
+    <!--  <artifactId>log4j</artifactId>-->
+    <!--  <version>${log4j.version}</version>-->
+    <!--</dependency>-->
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-web</artifactId>
       <version>${log4j.version}</version>
     </dependency>
     <!-- commons -->

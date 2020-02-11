@@ -2,7 +2,8 @@ package com.sloera.mng.core.action;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.JavaScriptUtils;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public abstract class BaseController {
-    public Logger logger = Logger.getLogger(this.getClass());
+    public Logger logger = LogManager.getLogger(this.getClass());
     public static final String USER_TOCKEN = "_Invalidate_Session_Token_";
     public String SYSTEM_CDN = "localhost";
 

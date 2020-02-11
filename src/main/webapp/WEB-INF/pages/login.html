@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <link href="${root!}/static/js/bootstrap/css/bootstram.min.css">
+        <title>${title!}</title>
+    </head>
+    <body>
+    <#include "*/common/html/htmlHeader.html">
+        <h2 class="text-center">这是一个登录界面<h2/>
+        <div class="container text-center">
+            <form class="form-horizontal" id="loginForm" method="post" action="${command!}"
+                  data-validator-option="{stopOnError:true}">
+                <div class="form-group">
+                    <label for="userName" class="col-sm-4 control-label">登录账号：</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" value="" name="userName" id="userName" placeholder="请输入账号" data-rule="登录账号:required;" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-4 control-label">登录密码：</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" value="" name="password" id="password" placeholder="请输入密码" data-rule="登录密码:required;" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">操作：</label>
+                    <div class="col-sm-1">
+                        <button type="submit" id="btnLogin" class="btn btn-login">登录</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" id="btnRegister" class="btn btn-primary">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <#include "login/footer.html"/>
+    </body>
+    <#include "*/common/html/htmlFooter.html">
+    <script src="${root!}/static/js/jquery/jquery.md5.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        console.log("${root!}");
+        $('.form-login').validator({
+            valid:function (form) {
+                $("#password").val($.md5($("#password").val())) // 密码md5加密
+                $("#userName").val(encrypt(encodeURIComponent($("#userName").val())));
+                $("#password").val(encrypt(encodeURIComponent($("#password").val())));
+                form.submit();
+            }
+        })
+        $("#btnRegister").click(function () {
+            console.log("用户注册");
+            window.location.href = Power.rootPath + "register";
+            // var data = getData();
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/main",
+            //     data: data,
+            //     async: false,
+            //     success: function(data){
+            //         console.log("data:"+data);
+            //         alert("login success");
+            //     }
+            // })
+        });
+        function getData(){
+            var data = {};
+            data.userName = encrypt(encodeURIComponent($("#userName").val()));
+            data.password = encrypt(encodeURIComponent($("#password").val()));
+            return data;
+        }
+        function encrypt(word){
+            return word;
+        }
+    });
+</script>
+</html>

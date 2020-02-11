@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>${title!}</title>
+<link rel="icon" href="${root!}/static/img/icon/favicon.ico">
+<link href="${root!}/static/css/dzzw-base.css" rel="stylesheet">
+<link href="${root!}/static/css/dzzw-mdicon.min.css" rel="stylesheet">
+<link href="${root!}/static/css/dzzw-webfinal.min.css" rel="stylesheet">
+<link href="${root!}/static/js/jqgrid/css/jqgrid.css"  rel="stylesheet"/>
+<link href="${root!}/static/js/validate/css/style.css" rel="stylesheet" />
+<link href="${root!}/static/js/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="${root!}/static/js/jquery/jquery-1.11.1.js"></script>
+<!--[if lt IE 9]>
+    <script src="${root!}/static/js/html5shiv.js"></script>
+    <script src="${root!}/static/js/respond.min.js"></script>
+    <link href="${root!}/static/css/dzzw-base-ie7.css" rel="stylesheet">
+<![endif]-->  
+<style type="text/css">
+
+			#wrapper {
+		  		padding-top: 40px;
+		  	}
+		  	#left {
+		  		top:40px;
+		  	}
+		 	#navigation{
+		  		display:block;
+		  	}
+		.dropdown >a{cursor: pointer;}
+		.modal-backdrop {display:none;}
+  	</style>
+</head>
+<body style="overflow: hidden;overflow-y: hidden;">
+
+<div class="navbar navbar-default navbar-fixed-top ui-navbar" id="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">  
+            <a class="navbar-brand" href="#" style="color: #fff;"><strong>INSPUR浪潮</strong>&nbsp;${title!}</a>
+        </div> 
+        <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown dropdown-hover">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="mdicon account-box"></i>&nbsp;${user.NAME!}<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a style="cursor: pointer;" onclick="changeUinfo()"><i class="mdicon settings-cogwheel"></i>&nbsp;个人信息</a></li>
+                    <li class="divider"></li>
+                    <li><a style="cursor: pointer;" onclick="ChangePassword()"><i class="mdicon locked"></i>&nbsp;修改密码</a></li>
+                </ul>
+            </li>
+     		<li><a style="cursor: pointer;" id="login" onclick="logout()"><i class="mdicon exit-to-app"></i>&nbsp;退出</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="container-fluid" id="wrapper">
+    <div class="row" id="inner">
+        <div class="col-xs-2" id="left" >
+            <div class="ui-sidebar" id="divtop">
+             
+               <ul class="nav first-menu-bar" id="menuone">
+                    <li class="nav-header">
+                        <a href="#" title="浪潮行政审批系统"  ref="main/index" style="padding:8px 0;" id="first-menu-item" name="main-index">
+                            <img alt="浪潮行政审批系统" src="${root!}/static/img/icon/${APP_CODE!'NONE'}.png" class="img-circle">
+                            <br>
+                            <span style="font-weight: bold;">行政审批</span>
+                        </a>
+                    </li>
+                    </ul>
+              <div id="firstpage">
+              
+                <ul class="nav first-menu-bar" id="menuone">
+                  
+                  	<#if navMenus??>
+                  	
+	                    <#list navMenus as menu>
+	                    <#if menu_index lt 5||menu_index ==5>
+	                      	<li id="menu${menu_index}" class="dropdown dropdown-hover"  name="${menu.ID!}" >
+		                        <#if weizi=="YES">
+		                        <a class="dropdown-toggle" data-toggle="dropdown"   ref="${menu.PATH!}" code="${menu.ID!}" type="${menu.OPEN_TYPE!}"  leaf="${menu.IS_LEAF!}" name="${menu.ID!}" menu="${menu.NAME!}" >
+		                            <i class="mdicon ${menu.ICON!'home'}" style="font-size:18px;margin-top:5px;width:24px;float:left;"></i>
+		                            <span style="line-height:30px;">${menu.NAME!}</span>
+		                        </a>
+		                        <#else>
+		                        <a class="dropdown-toggle" data-toggle="dropdown"   ref="${menu.PATH!}" code="${menu.ID!}" type="${menu.OPEN_TYPE!}"  leaf="${menu.IS_LEAF!}" name="${menu.ID!}" menu="${menu.NAME!}" >
+		                            <i class="mdicon ${menu.ICON!'home'}"></i>
+		                            <span>${menu.NAME!}</span>
+		                        </a>
+		                        </#if>
+		                        <#if menu.IS_LEAF=='0'>
+		                        <#if menu_index gt 2>
+		                        <ul class="dropdown-toggle dropdown-menu nav-webfinal"  style="background-color:#e9f4fd;top:auto;bottom: 20px;">
+		                        <#else>
+		                         <ul class="dropdown-menu nav-webfinal" style="background-color:#e9f4fd;">
+		                        </#if>
+		                       
+		                        <#list menuChild as item>
+		                        	<#if item.PARENT_CODE==menu.ID>
+		                            	<li><a style="cursor: pointer;"  data-toggle="collapse"  ref="${item.PATH!}" 
+		                            	<#if isTabs??>
+		                            		<#if isTabs=="NO">
+		                            			name="${item.PARENT_CODE!}"
+		                            		<#else>
+		                            			name="${item.ID!}"
+		                            		</#if>
+		                            	 </#if>
+		                            	 path="${item.RES_PATH!}" icon=" ${item.ICON!}" type="${item.OPEN_TYPE!}" menu="${item.NAME!}" leaf="${item.IS_LEAF!}"><i class="mdicon ${item.ICON!}" style="font-size:18px;margin-top:5px;width:24px;float:left;"></i><span style="line-height:30px;">${item.NAME!}</span></a></li>
+		                            </#if>
+		                        </#list>
+		                        </ul>
+		                        </#if>
+		                    </li>
+		                </#if>
+		                
+		                <#if menu_index ==5>
+		                  <li class="nav-more" style="background-color: #D2E7F5;">
+                                    <a href="#ui-carousel-nav" data-slide="prev" leaf="0">
+                                        <i class="mdicon more-horiz"></i>
+                                        <strong>更多</strong>
+                                    </a>
+                         </li>
+		     			</#if >
+	                    </#list>
+	                   
+	                   
+	                <#else>
+	                		<li><span>暂无菜单</span></li>
+	                </#if>
+                </ul>
+            
+             </div>
+            
+             <div id="secondpage" >
+          	   <ul class="nav first-menu-bar" id="menuone">
+                               
+                        <#if navMenus??>
+                  	
+	                    <#list navMenus as menu>
+	                    <#if menu_index gt 5>
+	                  
+	                      	<li id="menu${menu_index}" class="dropdown dropdown-hover"  name="${menu.ID!}" >
+		                        <#if weizi=="YES">
+		                        <a class="dropdown-toggle" data-toggle="dropdown"   ref="${menu.PATH!}" code="${menu.ID!}" type="${menu.OPEN_TYPE!}" leaf="${menu.IS_LEAF!}" name="${menu.ID!}" menu="${menu.NAME!}">
+		                            <i class="mdicon ${menu.ICON!'home'}" style="font-size:18px;margin-top:5px;width:24px;float:left;"></i>
+		                            <span style="line-height:30px;">${menu.NAME!}</span>
+		                        </a>
+		                        <#else>
+		                        <a class="dropdown-toggle" data-toggle="dropdown"   ref="${menu.PATH!}" code="${menu.ID!}" type="${menu.OPEN_TYPE!}"  leaf="${menu.IS_LEAF!}" name="${menu.ID!}" menu="${menu.NAME!}" >
+		                            <i class="mdicon ${menu.ICON!'home'}"></i>
+		                            <span>${menu.NAME!}</span>
+		                        </a>
+		                        </#if> 
+		             			<#if menu.IS_LEAF=='0'>
+		                        <#if menu_index gt 9>
+		                        <ul class="dropdown-toggle dropdown-menu nav-webfinal"  style="background-color:#e9f4fd;top:auto;bottom: 20px;">
+		                        <#else>
+		                         <ul class="dropdown-menu nav-webfinal" style="background-color:#e9f4fd;">
+		                        </#if> 
+		                        <#list menuChild as item>
+		                        	<#if item.PARENT_CODE==menu.ID>
+		                            	<li><a style="cursor: pointer;"  data-toggle="collapse"  ref="${item.PATH!}" 
+		                            	<#if isTabs??>
+		                            		<#if isTabs=="NO">
+		                            			name="${item.PARENT_CODE!}"
+		                            		<#else>
+		                            			name="${item.ID!}"
+		                            		</#if>
+		                            	 </#if>
+		                            	 path="${item.RES_PATH!}" icon=" ${item.ICON!}" type="${item.OPEN_TYPE!}" menu="${item.NAME!}" leaf="${item.IS_LEAF!}"><i class="mdicon ${item.ICON!}" style="font-size:18px;margin-top:5px;width:24px;float:left;"></i><span style="line-height:30px;">${item.NAME!}</span></a></li>
+		                            </#if>
+		                        </#list>
+		                        </ul>
+		                        </#if>
+		                    </li>
+		                </#if>
+	                    </#list>
+                                <li class="nav-back" style="background-color: #D2E7F5;">
+                                    <a href="#ui-carousel-nav" data-slide="prev" leaf="0">
+                                        <i class="mdicon arrow-back"></i>
+                                        <strong>返回</strong>
+                                    </a>
+                                </li>
+	               		</#if>
+	
+				</ul>
+              </div>
+            
+              
+            </div>
+        </div>
+        <#if isTabs??>
+       		<#if isTabs=="NO">
+       			<div class="col-xs-12" id="main-content" style="padding:0px;"></div>
+       		<#else>
+       			<div class="col-xs-12" id="main-content" style="padding:0px;">
+				<ul class="nav nav-tabs" role="tablist">
+				    <li class="tabv active" id="tab_tab_main-index"><a href="#tab_main-index" role="tab" data-toggle="tab">首页</a></li>
+				</ul>
+				<div class="tab-content" style="height:100%">
+				    <div role="tabpanel" class="tab-pane active" id="tab_main-index" style="height:100%">
+				    </div>
+				</div>
+				</div>
+       		</#if>
+       	 </#if>
+        
+    </div>
+</div>
+<#if isOpen??&&isOpen=="YES">
+<!--[if (gt IE 9) | !IE]><!-->
+<div class="panel panel-primary modal fade" id="myModal" style="top: auto; left: auto; margin: 0; width: 300px;">
+    <header class="panel-heading" style="color: #ffffff;  background-color: #1582dc;  border-color: #1582dc;padding: 10px 15px;">
+    <#if showCountDialog=="NO"> 
+      <button type="button" class="close" title="关闭" data-dismiss="modal" style="margin-top: -5px;"  onclick="closeTips()" title=""><i  class="mdicon clear"></i></button>
+     </#if>
+       <button type="button"   class="close"  title="最小化" style="margin-top: -5px;margin-right: 10px;" onclick="hideTips()"><i id="tipFlag" class="mdicon horizontal-line-remove"></i></button>
+    <h3 class="panel-title">${user.NAME!}您好：</h3>
+    </header>
+    <ul class="list-group" id="hideTips">
+   		<#if isNotice??&&isNotice=="YES">
+   		<#if noticeCount!="0">
+        <li class="list-group-item">您有
+		<a style="cursor: pointer;color:red;" onclick="noticeshow()">${noticeCount!}</a> 条未读通知
+        </li>
+        </#if>
+        </#if>
+		<#if isConsulting??&&isConsulting=="YES">
+			<#if huishang!="0">
+				<li class="list-group-item">您有
+					<a style="cursor: pointer;color:red;" onclick="consultingshow()">${huishang!}</a> 条会商业务
+				</li>
+			</#if>
+		</#if>
+        <li class="list-group-item">普通待办：
+           <#if openMessage??>
+             <#list openMessage as message>
+                <div id="${message.CODE!}_div_num" style="display:inline">
+                    ${message.NAME!}&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('','${message.CODE!}_num')" id="${message.CODE!}_num">0</a> 条
+               </div>
+             </#list>
+           <#else>
+                                            普通业务&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('','normal_num')" id="normal_num">0</a> 条;
+
+           </#if>
+           
+        <li class="list-group-item">预警待办：
+          <#if openMessage??>
+             <#list openMessage as message>
+                 <div id="${message.CODE!}_div_warning_num" style="display:inline">
+                 ${message.NAME!}&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('2','${message.CODE!}_warning_num')" id="${message.CODE!}_warning_num">0</a> 条
+                </div>
+             </#list>
+           <#else>
+                                             普通业务&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('2','normal_warning_num')" id="normal_warning_num">0</a> 条
+
+           </#if>
+        </li>
+        <li class="list-group-item">超时待办：
+            <#if openMessage??>
+             <#list openMessage as message>
+              <div id="${message.CODE!}_div_limit_num" style="display:inline">
+                 ${message.NAME!}&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('3','${message.CODE!}_limit_num')" id="${message.CODE!}_limit_num">0</a> 条
+              </div>
+             </#list>
+           <#else>
+                                               普通业务&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('3','normal_num')" id="normal_limit_num">0</a> 条
+
+           </#if>
+          </li>
+
+		<#if codingProject??&&codingProject=="YES">
+				<li class="list-group-item">您有
+					<a style="cursor: pointer;color:red;" onclick="codingProjectShow()">${codingProjectCount!}</a> 个未赋码项目
+				</li>
+		</#if>
+    </ul>
+</div>
+ <#if showCountDialog??&&showCountDialog=="YES">
+    <#include "*/user/needdeal.html">
+</#if>
+<!--  [endif]-->
+<!--[if lt IE 10]>
+<div id="noModal" class="panel panel-primary" style="right:0;bottom:0;position:absolute;width:300px;margin: 0;">
+    <header class="panel-heading" style="color: #ffffff;  background-color: #1582dc;  border-color: #1582dc;padding: 10px 15px;">
+            <button type="button" class="close" title="关闭" data-dismiss="modal" style="margin-top: -5px;"  onclick="closeNoModal()" title=""><i  class="mdicon clear"></i></button>
+             <button type="button"   class="close"  title="最小化" style="margin-top: -5px;margin-right: 10px;" onclick="hideTips()"><i id="tipFlag" class="mdicon horizontal-line-remove"></i></button>
+    <h3 class="panel-title">${user.NAME!}您好：</h3>
+    </header>
+    <ul class="list-group" id="hideTips">
+        <li class="list-group-item">普通待办：
+           <#if openMessage??>
+             <#list openMessage as message>
+                 ${message.NAME!}&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('','${message.CODE!}_num')" id="${message.CODE!}_num">0</a> 条
+             </#list>
+           <#else>
+                                            普通业务&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('','normal_num')" id="normal_num">0</a> 条;
+
+           </#if>
+           
+        <li class="list-group-item">预警待办：
+          <#if openMessage??>
+             <#list openMessage as message>
+                 ${message.NAME!}&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('2','${message.CODE!}_warning_num')" id="${message.CODE!}_warning_num">0</a> 条
+             </#list>
+           <#else>
+                                             普通业务&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('2','normal_warning_num')" id="normal_warning_num">0</a> 条
+
+           </#if>
+        </li>
+        <li class="list-group-item">超时待办：
+            <#if openMessage??>
+             <#list openMessage as message>
+                 ${message.NAME!}&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('3','${message.CODE!}_limit_num')" id="${message.CODE!}_limit_num">0</a> 条
+             </#list>
+           <#else>
+                                               普通业务&nbsp;<a style="cursor: pointer;color:red;" onclick="listshow('3','normal_num')" id="normal_limit_num">0</a> 条
+
+           </#if>
+          </li>
+    </ul>
+</div>
+<![endif]-->
+</#if>
+<style type="text/css">
+<!-- 
+.dropdown-menu{     min-width: 150px;
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-face-color:#f6f6f6;
+    scrollbar-highlight-color:#fff;
+    scrollbar-shadow-color:#eeeeee;
+    scrollbar-3dlight-color:#eeeeee;
+    scrollbar-arrow-color:#fff;
+    scrollbar-track-color:#fff;
+    scrollbar-darkshadow-color:#fff;
+    }
+ 
+-->
+
+</style>
+<!-- JavaScript --> 
+<script src="${root!}/static/js/approval.util.js"></script>
+<script src="${root!}/static/js/bootstrap.min.js"></script> 
+<script src="${root!}/static/js/jqgrid/js/jquery.jqgrid.min.js"></script>
+<script src="${root!}/static/js/jqgrid/js/jquery.jggrid.zh-cn.js"></script>
+<script src="${root!}/static/js/dialog/jquery.artDialog.source.js?skin=blue"></script>   
+<script src="${root!}/static/js/dialog/plugins/iframeTools.js"></script>   
+<script src="${root!}/static/js/validate/validform_v5.3.2.js"></script>
+<script src="${root!}/static/js/power/power-all.js"></script>
+<script src="${root!}/static/js/power/power.index.js"></script>
+<!--ace scripts -->
+<script type="text/javascript" src="${root!}/static/js/ace/ace-elements.js"></script>
+<script src="${root!}/static/js/spinner/fuelux.spinner.min.js"></script>
+<!-- 树插件 -->
+<script src="${root!}/static/js/ztree/js/jquery.ztree.core-3.5.min.js"></script>
+<script src="${root!}/static/js/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
+<script src="${root!}/static/js/calendar/bootstrap-datetimepicker.min.js"></script>
+<script src="${root!}/static/js/calendar/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- 富文本编辑器 -->
+<script type="text/javascript" src="${root!}/static/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="${root!}/static/js/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="${root!}/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<!-- 富文本 -->
+<script src="${root!}/static/js/kindeditor/kindeditor-min.js"></script>
+<script src="${root!}/static/js/kindeditor/lang/zh_CN.js"></script>
+<script src="${root!}/static/js/kindeditor/plugins/code/prettify.js"></script>
+<#if isTabs??>
+	<#if isTabs=="NO">
+	<#else>
+		<script src="${root!}/static/js/power/bootstrap-tab.js"></script>
+	</#if>
+</#if>
+<script>
+$(function(){
+    $('#myModal').modal('show');
+   	$(".modal-backdrop").hide();
+   
+    $("#secondpage").hide();
+    
+  	$(".nav-more").click(function(){
+		$("#firstpage").hide();
+		$("#secondpage").show();
+	});
+  	$(".nav-back").click(function(){
+		$("#secondpage").hide();
+		$("#firstpage").show();
+	});
+});
+function closeNoModal(){
+	$("#noModal").hide();
+}
+function closeTips(){
+	window.clearInterval(refreshTips);
+}
+function hideTips(){
+	$("#hideTips").toggle(function(){
+		if($(this).css("display")=="none"){
+			$("#tipFlag").removeClass("horizontal-line-remove");
+			$("#tipFlag").parent().attr("title","最大化");
+			$("#tipFlag").addClass("flip-to-front");
+		}else{
+			$("#tipFlag").removeClass("flip-to-front");
+			$("#tipFlag").parent().attr("title","最小化");
+			$("#tipFlag").addClass("horizontal-line-remove");
+		}
+	});
+} 
+</script>
+<script>
+var isIE;
+function isIE8(){
+	try{
+		return navigator.userAgent.split(";")[1].toLowerCase().indexOf("msie 8.0")=="-1"?false:true;
+	}
+	catch(e){
+		return false;
+	}
+    
+}
+var refreshTips;
+var isOpen = "${isOpen!}";
+var refreshTime = "${refreshTime!}";
+var showCountDialog ="${showCountDialog!}"
+var mindex = {};
+$(function(){
+	if(isOpen == "YES"){
+		getCountNew();
+		refreshTips=setInterval(function() {
+			getCountNew();
+		}, refreshTime);
+		
+		if(showCountDialog=="YES"){
+		  setInterval(function() {
+			 hideTips();
+		  }, 1800000); //1800000ms=30min	
+		}
+	}
+
+	isIE=isIE8();
+	if(isIE){
+		for (var i=0; i<5; i++) {
+		   $("#menu"+i).css("height","79px");
+		}
+	} ;
+	 /**
+	  * 系统初始化
+	  */
+	  var height = $(window).height();
+	  
+    var loginType = "${loginType}";
+    var isTabs = "${isTabs}";
+    
+    if("sso"==loginType&&"NO"==isTabs){
+        $("#main-content").css("height",height-40);
+    }else if("sso"==loginType&&"YES"==isTabs){
+        var height1 = height-40;
+        $("#main-content").css("height",height1);
+
+    }else if("normal"==loginType&&"YES"==isTabs){
+        $("#main-content").css("height",height-80);
+    }else if("normal"==loginType&&"NO"==isTabs){
+        $("#main-content").css("height",height-40);
+    }else{
+        $("#main-content").css("height",height-40);
+    }
+	 WebFinal.initApplication('${root!}');
+	 /**
+	  *加载首页
+	  */
+	  mindex.path = "个人首页#待办业务";
+	  mindex.menu = "待办业务";
+	  mindex.icon ="fa fa-flag";
+	  
+	  <#if isTabs??>
+		<#if isTabs=="NO">
+		 WebFinal.loadIframePage("${indexPages!}",mindex,function(){
+			  $("ul.first-menu-bar>li").removeClass("active");
+				// $("ul.first-menu-bar>li:eq(0)").addClass("active");
+		  }); 
+		<#else>
+			//清空页面dom元素
+		  $("#tab_main-index").empty();
+		  //加载IFrame对话框
+		  var srcUrl = "${root!}/${indexPages!}?v="+new Date().getTime();
+		  var iframeHtml = "<iframe id='dzzw-webfinal-iframe' height='100%' width='100%' src='"+"' allowtransparency='true' frameborder='0' scrolling='auto' seamless='seamless' marginheight='0' marginwidth='0'></iframe>";
+		  $("#tab_main-index").html(iframeHtml);
+		  var iframe = document.getElementById("dzzw-webfinal-iframe");
+		  iframe.src= srcUrl;
+		</#if>
+	</#if>
+	 
+	  
+	
+	  
+	  /**
+		 *二级菜单页展现
+		 */
+	    $('.dropdown-hover').hover(
+	            function() {
+	                $('.dropdown-menu', this).stop( true, true ).fadeIn('fast');
+	                $(this).toggleClass('active'); 
+	            },function() {
+	                $('.dropdown-menu', this).stop( true, true ).fadeOut('fast');
+		                $(this).toggleClass('active'); 
+	            }
+		);
+		/**
+		 *单击菜单事件
+		 */
+		var select$menu$index = 0;
+	//	$('.nav-webfinal> li > a').click(function(e){
+	$(".first-menu-bar a[href!='#']").click(function(e){
+			e.preventDefault();
+			//单击后隐藏菜单
+			$(".nav-webfinal").hide();
+			//上级标签
+			var parent = $(this).parent();
+			//当前菜单的父菜单
+			var pid = $(this).attr("name");
+			//修改当前菜单状态
+			$('.first-menu-bar > li').each(function(i){
+				var name = $(this).attr("name");
+				if(pid==name){
+					select$menu$index = i;
+					//$(this).addClass("active");
+				}else{
+					$(this).removeClass("active");
+				}
+			});
+			//菜单加载
+			var url = $(this).attr("ref");
+			var menu = {};
+			
+			menu.isLeaf= $(this).attr("leaf");
+			if(menu.isLeaf=="1"){
+		<#if isTabs??>
+			<#if isTabs=="NO">
+				menu.path = $(this).attr("path");
+				menu.menu = $(this).attr("menu");
+				menu.icon = $(this).attr("icon");
+				menu.openType = $(this).attr("type");
+				var iframe = WebFinal.iframe;
+				if(iframe){
+				    if(menu.openType=="2"){
+					//iframe加载
+					WebFinal.loadIframePage(url,menu,function(){
+						$("ul.first-menu-bar>li:eq("+select$menu$index+")").addClass("active");
+					});
+					}else if(menu.openType=="1"){
+					    window.open(url); 
+					}
+				}else{
+					//ajax加载
+					WebFinal.loadPage(WebFinal.rootPath+url,menu,function(){
+						$("ul.first-menu-bar>li:eq("+select$menu$index+")").addClass("active");
+					});
+				}
+			<#else>
+				menu.url = url;
+				menu.id = $(this).attr("name");
+				menu.title = $(this).attr("menu");
+				menu.close = true;
+				addTabs(menu);
+			</#if>
+		</#if>
+			}
+		});
+		/**
+		 * 首页单击事件
+		 */
+		 /* $("#first-menu-item").click(function(){
+			 var ul$li = $(this).parent();
+			 //加载首页
+			WebFinal.loadPage(WebFinal.rootPath+'main/index',null,function(){
+				$("ul.first-menu-bar>li").removeClass("active");
+				 $("ul.first-menu-bar>li:eq(0)").addClass("active");
+			});
+		 }); */
+		 $("#first-menu-item").click(function(){
+			 <#if isTabs??>
+				<#if isTabs=="NO">
+
+				 var ul$li = $(this).parent();
+				 WebFinal.loadIframePage("${indexPages!}",mindex,function(){
+					 $("ul.first-menu-bar>li").removeClass("active");
+					 $("ul.first-menu-bar>li:eq(0)").addClass("active");
+				  });
+				<#else>
+					
+				/* //清空页面dom元素
+				  $("#tab_main-index").empty();
+				  //加载IFrame对话框
+				  var srcUrl = "${root!}/approval/worktodolist/todoindex?v="+new Date().getTime();
+				  var iframeHtml = "<iframe id='dzzw-webfinal-iframe' height='100%' width='100%' src='"+"' allowtransparency='true' frameborder='0' scrolling='auto' seamless='seamless' marginheight='0' marginwidth='0'></iframe>";
+				  $("#tab_main-index").html(iframeHtml);
+				  var iframe = document.getElementById("dzzw-webfinal-iframe");
+				  iframe.src= srcUrl;
+				  
+				  var url = $(this).attr("ref");
+					var menu = {};
+					menu.url = url;
+					menu.id = $(this).attr("name");
+					menu.title = $(this).attr("menu");
+					menu.close = true;
+					addTabs(menu); */
+					
+					var menu = {};
+					menu.url = $(this).attr("ref");
+					menu.id = $(this).attr("name");
+					menu.title = $(this).attr("menu");
+					menu.close = true;
+					addTabs(menu);
+				  
+				</#if>
+			</#if>
+		 }); 
+});
+function listshow(state,id){
+	var valTxt=$("#"+id).html();
+
+	if(valTxt=="0"){
+		return;
+	}
+	var type=id.split("_");
+	type=type[0];
+	var sql="?a=defshow";
+	sql+="&type="+type;
+	mindex.path = "个人待办#普通待办业务";
+	mindex.menu = "普通待办业务";
+	if(state.length>0){
+		sql+="&state="+state;
+		if(state=="2"){
+			mindex.path = "个人待办#预警业务";
+			mindex.menu = "预警待办业务";
+		}else{
+			mindex.path = "个人待办#超时业务";
+			mindex.menu = "超时待办业务";
+		}
+	}
+	mindex.
+	sql+="&v="+(new Date()).getTime();
+	 WebFinal.loadIframePage("approval/worktodolist/defshow"+sql,mindex,function(){
+		 $("ul.first-menu-bar>li").removeClass("active");
+		 $("ul.first-menu-bar>li:eq(0)").addClass("active");
+	  });
+}
+function noticeshow(){
+	mindex.path = "通知公告";
+	mindex.menu = "通知公告";
+	WebFinal.loadIframePage("approval/notification/indexview",mindex);	
+}
+function codingProjectShow(){
+    mindex.path = "未赋码项目";
+    mindex.menu = "未赋码项目";
+    WebFinal.loadIframePage("approval/constructproject/codingProjectList",mindex);
+}
+function consultingshow(){
+	mindex.path = "会商业务";
+	mindex.menu = "会商业务";
+	WebFinal.loadIframePage("approval/business/consulting/consultingindex",mindex);
+}
+function getCountNew(){
+	//$('#myModal').modal('show');
+	$.ajax({ 
+	    type: "POST", 
+	    url: "${root!}/approval/workextend?method=queryCount",
+	    async:true, 
+	    dataType: "json", 
+	    success: function(ret){ 
+			  if(!ret.error&&ret.state==1){ 
+				  if(showCountDialog=="YES"){
+				     debugger;
+					  if(ret.normal_num!=0){
+					    $("#normal_num").html("0");
+						$("#normal_num").html(ret.normal_num);
+						
+					  }else{
+					    $("#normal_div_num").css("display","none");
+					  }
+					  
+					 
+					  if(ret.normal_warning_num!=0){
+					    $("#normal_warning_num").html("0");
+					   $("#normal_warning_num").html(ret.normal_warning_num);
+					 
+					  }else{
+					    $("#normal_div_warning_num").css("display","none");
+					  }
+				     
+					  if(ret.normal_limit_num!=0){
+					   	$("#normal_limit_num").html("0");
+					    $("#normal_limit_num").html(ret.normal_limit_num);
+					 
+					  }else{
+					    $("#normal_div_limit_num").css("display","none");
+					  }
+					
+					 if(ret.normal_cloud_num!=0){
+					    $("#cloud_num").html("0");
+					    $("#cloud_num").html(ret.cloud_num);
+					 
+					  }else{
+					    $("#cloud_div_num").css("display","none");
+					  }
+				      if(ret.cloud_warning_num!=0){
+					    $("#cloud_warning_num").html("0");
+						$("#cloud_warning_num").html(ret.cloud_warning_num);
+						
+					  }else{
+					    $("#cloud_div_warning_num").css("display","none");
+					  }
+					 if(ret.cloud_limit_num!=0){
+					    $("#cloud_limit_num").html("0");
+					    $("#cloud_limit_num").html(ret.cloud_limit_num);
+					   
+					  }else{
+					    $("#cloud_div_limit_num").css("display","none");
+					  }
+					 if(ret.buqi_num!=0){
+					   $("#buqi_num").html("0");
+					   $("#buqi_num").html(ret.buqi_num);
+					  }else{
+					   $("#buqi_div_num").css("display","none");
+					  }
+				      if(ret.buqi_warning_num!=0){
+						$("#buqi_warning_num").html("0");
+						$("#buqi_warning_num").html(ret.buqi_warning_num);	
+					  }else{
+					    $("#buqi_div_warning_num").css("display","none");
+					  }
+					  if(ret.buqi_limit_num!=0){
+						$("#buqi_limit_num").html("0");
+					    $("#buqi_limit_num").html(ret.buqi_limit_num);
+					  }else{
+					    $("#buqi_div_limit_num").css("display","none");
+					  }
+					  if(ret.suspend_num!=0){
+						$("#suspend_num").html("0");
+					    $("#suspend_num").html(ret.suspend_num);
+					  }else{
+					    $("#suspend_div_num").css("display","none");
+					  }
+					  if(ret.suspend_warning_num!=0){
+						$("#suspend_warning_num").html("0");
+					    $("#suspend_warning_num").html(ret.suspend_warning_num); 
+					  }else{
+					    $("#suspend_div_warning_num").css("display","none");
+					  }
+					  if(ret.suspend_limit_num!=0){
+						$("#suspend_limit_num").html("0");
+					    $("#suspend_limit_num").html(ret.suspend_limit_num);
+					  }else{
+					    $("#suspend_div_limit_num").css("display","none");
+					  }
+					  if(ret.union_num!=0){
+						$("#union_num").html("0");
+					    $("#union_num").html(ret.union_num);
+					  }else{
+					    $("#union_div_num").css("display","none");
+					  } 
+					  if(ret.union_warning_num!=0){
+						$("#union_warning_num").html("0");
+					    $("#union_warning_num").html(ret.union_warning_num); 
+					  }else{
+					    $("#union_div_warning_num").css("display","none");
+					  }
+					  if(ret.union_limit_num!=0){
+						$("#union_limit_num").html("0");
+					   $("#union_limit_num").html(ret.union_limit_num);
+					  
+					  }else{
+					    $("#union_div_limit_num").css("display","none");
+					  }
+					  if(ret.report_num!=0){
+						$("#report_num").html("0");
+					    $("#report_num").html(ret.report_num);
+					  }else{
+					    $("#report_div_num").css("display","none");
+					  }
+					  if(ret.report_warning_num!=0){
+						$("#report_warning_num").html("0");
+					    $("#report_warning_num").html(ret.report_warning_num);
+					  }else{
+					    $("#report_div_warning_num").css("display","none");
+					  } 
+					  if(ret.report_limit_num!=0){
+						$("#report_limit_num").html("0");
+					    $("#report_limit_num").html(ret.report_limit_num);   
+					  }else{
+					    $("#report_div_limit_num").css("display","none");
+					  }
+					  if(ret.yushen_num!=0){
+						$("#yushen_num").html("0");
+					    $("#yushen_num").html(ret.yushen_num);   
+					  }else{
+					    $("#yushen_div_num").css("display","none");
+					  }
+					  if(ret.yushen_warning_num!=0){
+						$("#yushen_warning_num").html("0");
+					    $("#yushen_warning_num").html(ret.yushen_warning_num);
+					  }else{
+					    $("#yushen_div_warning_num").css("display","none");
+					  }
+					  if(ret.yushen_limit_num!=0){
+						$("#yushen_limit_num").html("0");
+						$("#yushen_limit_num").html(ret.yushen_limit_num);
+						
+					  }else{
+					    $("#yushen_div_limit_num").css("display","none");
+					  }
+					  if(ret.huishang_num!=0){
+						$("#huishang_num").html("0");
+					    $("#huishang_num").html(ret.huishang_num);
+					  }else{
+					    $("#huishang_div_num").css("display","none");
+					  }
+				  }else{
+				     $("#normal_num").html("0");
+					$("#normal_num").html(ret.normal_num);
+					$("#normal_warning_num").html("0");
+					$("#normal_warning_num").html(ret.normal_warning_num);
+					$("#normal_limit_num").html("0");
+					$("#normal_limit_num").html(ret.normal_limit_num);
+					
+					$("#cloud_num").html("0");
+					$("#cloud_num").html(ret.cloud_num);
+					$("#cloud_warning_num").html("0");
+					$("#cloud_warning_num").html(ret.cloud_warning_num);
+					$("#cloud_limit_num").html("0");
+					$("#cloud_limit_num").html(ret.cloud_limit_num);
+					
+					$("#buqi_num").html("0");
+					$("#buqi_num").html(ret.buqi_num);
+					$("#buqi_warning_num").html("0");
+					$("#buqi_warning_num").html(ret.buqi_warning_num);
+					$("#buqi_limit_num").html("0");
+					$("#buqi_limit_num").html(ret.buqi_limit_num);
+					
+					$("#suspend_num").html("0");
+					$("#suspend_num").html(ret.suspend_num);
+					$("#suspend_warning_num").html("0");
+					$("#suspend_warning_num").html(ret.suspend_warning_num);
+					$("#suspend_limit_num").html("0");
+					$("#suspend_limit_num").html(ret.suspend_limit_num);
+					
+					$("#union_num").html("0");
+					$("#union_num").html(ret.union_num);
+					$("#union_warning_num").html("0");
+					$("#union_warning_num").html(ret.union_warning_num);
+					$("#union_limit_num").html("0");
+					$("#union_limit_num").html(ret.union_limit_num);
+					
+					$("#report_num").html("0");
+					$("#report_num").html(ret.report_num);
+					$("#report_warning_num").html("0");
+					$("#report_warning_num").html(ret.report_warning_num);
+					$("#report_limit_num").html("0");
+					$("#report_limit_num").html(ret.report_limit_num);
+					
+					$("#yushen_num").html("0");
+					$("#yushen_num").html(ret.yushen_num);
+					$("#yushen_warning_num").html("0");
+					$("#yushen_warning_num").html(ret.yushen_warning_num);
+					$("#yushen_limit_num").html("0");
+					$("#yushen_limit_num").html(ret.yushen_limit_num);
+
+					  $("#huishang_num").html("0");
+					  $("#huishang_num").html(ret.huishang_num);
+				  }
+					
+			  }else{ 
+			     return false; 
+			  }
+	    } 
+	}); 
+}
+function getcount(){
+    $('#myModal').modal('show');
+	var cmd = new Power.command("approval/workextend","POST");
+	var ret = cmd.execute("queryCount");
+	if(ret.state==1 || ret.code=="200"){
+		$("#normal_num").html("0");
+		$("#normal_num").html(ret.normal_num);
+		$("#normal_warning_num").html("0");
+		$("#normal_warning_num").html(ret.normal_warning_num);
+		$("#normal_limit_num").html("0");
+		$("#normal_limit_num").html(ret.normal_limit_num);
+		
+		$("#cloud_num").html("0");
+		$("#cloud_num").html(ret.cloud_num);
+		$("#cloud_warning_num").html("0");
+		$("#cloud_warning_num").html(ret.cloud_warning_num);
+		$("#cloud_limit_num").html("0");
+		$("#cloud_limit_num").html(ret.cloud_limit_num);
+		
+		$("#buqi_num").html("0");
+		$("#buqi_num").html(ret.buqi_num);
+		$("#buqi_warning_num").html("0");
+		$("#buqi_warning_num").html(ret.buqi_warning_num);
+		$("#buqi_limit_num").html("0");
+		$("#buqi_limit_num").html(ret.buqi_limit_num);
+		
+		$("#suspend_num").html("0");
+		$("#suspend_num").html(ret.suspend_num);
+		$("#suspend_warning_num").html("0");
+		$("#suspend_warning_num").html(ret.suspend_warning_num);
+		$("#suspend_limit_num").html("0");
+		$("#suspend_limit_num").html(ret.suspend_limit_num);
+		
+		$("#union_num").html("0");
+		$("#union_num").html(ret.union_num);
+		$("#union_warning_num").html("0");
+		$("#union_warning_num").html(ret.union_warning_num);
+		$("#union_limit_num").html("0");
+		$("#union_limit_num").html(ret.union_limit_num);
+		
+		$("#report_num").html("0");
+		$("#report_num").html(ret.report_num);
+		$("#report_warning_num").html("0");
+		$("#report_warning_num").html(ret.report_warning_num);
+		$("#report_limit_num").html("0");
+		$("#report_limit_num").html(ret.report_limit_num);
+		
+		$("#yushen_num").html("0");
+		$("#yushen_num").html(ret.yushen_num);
+		$("#yushen_warning_num").html("0");
+		$("#yushen_warning_num").html(ret.yushen_warning_num);
+		$("#yushen_limit_num").html("0");
+		$("#yushen_limit_num").html(ret.yushen_limit_num);
+
+		$("#huishang_num").html("0");
+		$("#huishang_num").html(ret.huishang_num);
+	}
+}
+function logout(){
+	window.location.href = "${root!}/logout";
+}
+//修改密码的功能
+function ChangePassword(){
+	var addButtons=[{
+		id:'pub-change-add',
+		name:'确定',
+		callback:function(){
+			    if(saveChangePwd()){
+			    	return true;
+			    }
+			    return false;
+		},
+		focus:true
+		},{
+		   name:'取消',
+		   callback:function(){
+		   }
+		
+	}];
+	
+	Power.dialog({
+		title:"修改密码",
+		width:450,
+		id:'changepwd',
+		button:addButtons,
+		url : "${root!}/power/user/info/changepwd",
+		init:function(){
+		}
+	});
+}
+function changeUinfo(){
+	var addButtons=[{
+		id:'pub-change-add',
+		name:'确定',
+		callback:function(){
+			    if(saveChangeUinfo()){
+			    	return true;
+			    }
+			    return false;
+		},
+		focus:true
+		},{
+		   name:'取消',
+		   callback:function(){
+		   }
+		
+	}];
+	Power.dialog({
+		title:"个人基本信息",
+		width:760,
+		id:'changepwd',
+		button:addButtons,
+		url : "${root!}/power/user/info/userinfo",
+		init:function(){
+		}
+	});
+}
+function closeTips ()
+{}
+</script>
+<script src="${root!}/static/js/dzzw.webfinal.index.js"></script>
+<script src="${root!}/static/js/storeup.js"></script>
+</body>
+</html>
