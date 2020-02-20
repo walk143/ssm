@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 @Component
 @Service
 public class ProducerService {
-    private static String nameServerAccept = "127.0.0.1:9876";
+    private static String nameServerAccept = "192.168.1.166:9876";
     private static String groupIDAccept ="producer-group";
     private String topicAccept = "PUSH_OTHER";
     private static DefaultMQProducer producer = null;

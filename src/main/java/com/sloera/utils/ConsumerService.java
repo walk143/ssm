@@ -23,7 +23,7 @@ import java.util.Properties;
 @Service
 public class ConsumerService {
     private static Logger logger = LogManager.getLogger(ConsumerService.class);
-
+	private String nameServerAccept = "192.168.1.166:9876";
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Resource
@@ -32,7 +32,7 @@ public class ConsumerService {
 
 	@PostConstruct
 	public void consumerAccpetMsg() throws MQClientException {
-		String nameServerAccept = "127.0.0.1:9876";
+
 		String groupIDAccept ="consumer-group";
 		//String topicAccept = "PUSH_OTHER";
 		String topicAccept = "TOPIC-A";

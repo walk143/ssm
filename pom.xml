@@ -184,6 +184,12 @@
       <version>${rocketmq.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.sloera</groupId>
+      <artifactId>mng</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
 
   </dependencies>
 
