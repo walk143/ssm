@@ -2,10 +2,10 @@ package com.sloera.person.user.action;
 
 import com.sloera.mng.core.action.BaseController;
 import com.sloera.mng.core.utils.CTools;
+import com.sloera.mng.core.utils.date.CCalendar;
 import com.sloera.person.user.dao.UserDao;
 import com.sloera.person.user.po.UserBean;
 import com.sloera.person.user.service.UserService;
-import com.sloera.utils.CCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

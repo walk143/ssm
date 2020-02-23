@@ -27,7 +27,7 @@ public class ConsumerService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Resource
-    public  Properties appConstant;
+    private Properties appConstant;
 
 
 	@PostConstruct
@@ -36,43 +36,46 @@ public class ConsumerService {
 		String groupIDAccept ="consumer-group";
 		//String topicAccept = "PUSH_OTHER";
 		String topicAccept = "TOPIC-A";
-		DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupIDAccept);
-		consumer.setNamesrvAddr(nameServerAccept);
-		consumer.setInstanceName("consumer");
-		consumer.subscribe(topicAccept,"");
-		System.out.println("ddddddddddddddddddddddddd");
-		consumer.registerMessageListener(new MessageListenerConcurrently() {
-			@Override
-			public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-				System.out.println("ccccccccccccccccccccccccc");
-				for (MessageExt msg : list) {
-					try {
-						Map<String, String> map = msg.getProperties();
-						if (null != map) {
-							String content = new String(msg.getBody(),"UTF-8");
-							String tags = map.get("TAGS");
-							switch (tags) {
-								case "TagA":
-									accept("A: "+content);
-									break;
-								case "TagB":
-									accept("B: "+content);
-									break;
-								case "ACCEPT":
-									accept(content);
-									break;
-								default:
-									System.out.println("无匹配标签");
+		String flag = appConstant.getProperty("rocketmq.status");
+		System.out.println("consumer.flag:"+flag);
+		if ("on".equals(flag)) {
+			DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupIDAccept);
+			consumer.setNamesrvAddr(nameServerAccept);
+			consumer.setInstanceName("consumer");
+			consumer.subscribe(topicAccept, "");
+			consumer.registerMessageListener(new MessageListenerConcurrently() {
+				@Override
+				public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+					System.out.println("ccccccccccccccccccccccccc");
+					for (MessageExt msg : list) {
+						try {
+							Map<String, String> map = msg.getProperties();
+							if (null != map) {
+								String content = new String(msg.getBody(), "UTF-8");
+								String tags = map.get("TAGS");
+								switch (tags) {
+									case "TagA":
+										accept("A: " + content);
+										break;
+									case "TagB":
+										accept("B: " + content);
+										break;
+									case "ACCEPT":
+										accept(content);
+										break;
+									default:
+										System.out.println("无匹配标签");
+								}
 							}
+						} catch (Exception e) {
+							logger.equals(e);
 						}
-					} catch (Exception e) {
-						logger.equals(e);
 					}
+					return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 				}
-				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-			}
-		});
-		consumer.start();
+			});
+			consumer.start();
+		}
 
 	}
 	private void accept(String content) {
