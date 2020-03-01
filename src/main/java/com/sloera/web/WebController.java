@@ -1,6 +1,7 @@
 package com.sloera.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sloera.mng.core.action.BaseController;
 import com.sloera.utils.ProducerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
 @Controller
-public class WebController {
+public class WebController extends BaseController {
     private static Logger logger = LogManager.getLogger(WebController.class);
 
     @RequestMapping(value = "/producer", method = RequestMethod.GET)
@@ -44,5 +45,14 @@ public class WebController {
         } catch (Exception exc) {
             logger.error(exc);
         }
+    }
+    @RequestMapping(value = "/status", method = RequestMethod.POST)
+    public void status(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("status");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", 200);
+        jsonObject.put("status", 1);
+        System.out.println(this.getPostBody(request));
+        this.renderJson(response, jsonObject.toJSONString());
     }
 }
